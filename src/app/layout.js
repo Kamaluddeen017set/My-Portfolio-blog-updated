@@ -1,5 +1,5 @@
 import "../styles/global.css";
-import Providers from "./providers";
+import Providers from "./Providers";
 import LayoutClient from "./LayoutClient";
 export const metadata = {
   title: "My Portfolio",
