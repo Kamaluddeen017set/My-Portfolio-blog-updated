@@ -1,13 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import ImageResize from "quill-image-resize-module-react";
-
-// Register image resize module
-if (typeof window !== "undefined" && Quill && ImageResize) {
-  Quill.register("modules/imageResize", ImageResize);
-}
 
 export default function QuillEditor({
   value,
@@ -20,31 +13,53 @@ export default function QuillEditor({
   const quillRef = useRef(null);
 
   useEffect(() => {
-    if (!editorRef.current) return;
+    let Quill;
+    let ImageResize;
 
-    if (!quillRef.current) {
-      quillRef.current = new Quill(editorRef.current, {
-        theme: "snow",
-        placeholder,
-        modules,
-        formats,
-      });
+    (async () => {
+      // Dynamically import Quill + ImageResize only on client
+      const quillModule = await import("quill");
+      Quill = quillModule.default;
 
-      // Listen for changes
-      quillRef.current.on("text-change", () => {
-        if (onChange) {
-          let html = quillRef.current.root.innerHTML;
+      const imageResizeModule = (await import("quill-image-resize-module-react")).default;
 
-          // 🔹 unwrap images from <p>
-          html = html.replace(/<p><img(.*?)><\/p>/g, "<img$1>");
+      if (Quill && imageResizeModule) {
+        Quill.register("modules/imageResize", imageResizeModule);
+      }
 
-          onChange(html);
-        }
-      });
-    }
+      if (editorRef.current && !quillRef.current) {
+        quillRef.current = new Quill(editorRef.current, {
+          theme: "snow",
+          placeholder,
+          modules,
+          formats,
+        });
+
+        // Listen for changes
+        quillRef.current.on("text-change", () => {
+          if (onChange) {
+            let html = quillRef.current.root.innerHTML;
+
+            // 🔹 unwrap images from <p>
+            html = html.replace(/<p><img(.*?)><\/p>/g, "<img$1>");
+
+            onChange(html);
+          }
+        });
+      }
+
+      // Set initial content
+      if (quillRef.current && value) {
+        quillRef.current.root.innerHTML = value;
+      }
+    })();
+
+    return () => {
+      quillRef.current = null;
+    };
   }, []);
 
-  // Update when value changes from outside (edit form)
+  // Sync external value updates
   useEffect(() => {
     if (quillRef.current && value !== quillRef.current.root.innerHTML) {
       quillRef.current.root.innerHTML = value || "";
