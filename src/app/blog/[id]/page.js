@@ -31,16 +31,31 @@ export async function generateMetadata({ params }) {
           : "Read this blog post"),
       openGraph: {
         title: blog.title,
-        description: blog.excerpt,
-        images: [blog.image],
-        url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/blog/${blog._id}`,
+        description:
+          blog.excerpt || blog.content.replace(/<[^>]*>?/gm, "").slice(0, 150),
+        images: [
+          {
+            url:
+              blog.image ||
+              `${process.env.NEXT_PUBLIC_FRONT_END_URL}/default-og.png`,
+            width: 1200,
+            height: 630,
+            alt: blog.title,
+          },
+        ],
+        url: `${process.env.NEXT_PUBLIC_FRONT_END_URL}/blog/${blog._id}`,
         type: "article",
+        siteName: "Devkhamal Portfolio And Blog",
       },
       twitter: {
         card: "summary_large_image",
         title: blog.title,
-        description: blog.excerpt,
-        images: [blog.image],
+        description:
+          blog.excerpt || blog.content.replace(/<[^>]*>?/gm, "").slice(0, 150),
+        images: [
+          blog.image ||
+            `${process.env.NEXT_PUBLIC_FRONT_END_URL}/default-og.png`,
+        ],
       },
     };
   } catch (err) {
@@ -54,7 +69,7 @@ export async function generateMetadata({ params }) {
 
 // ✅ Page
 export default async function BlogDetailPage({ params }) {
-  const { id } = await params; // 👈 FIX: await params
+  const { id } = await params;
 
   try {
     const res = await fetch(`${API_BASE_URL}/blogs/${id}`, {

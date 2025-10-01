@@ -397,7 +397,7 @@
 
 @media (max-width: 481px) {
   .container {
-    padding-left: 10%;
+    padding-left: 20px;
     margin-left: -10px;
     grid-template-columns: repeat(2, 2fr);
     gap: 30px;
@@ -467,8 +467,11 @@
     margin-left: -100px;
     gap: 0;
   }
+  .edu-cards-wrapper {
+    margin-left: 0px;
+  }
 }
-@media (max-width: 395px) {
+@media (max-width: 410px) {
   .skill_pro_edu button {
     max-width: 100px;
   }

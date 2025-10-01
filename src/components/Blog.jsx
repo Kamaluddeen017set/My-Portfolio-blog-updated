@@ -57,7 +57,7 @@ function Blog() {
                   blog.tags?.length
                     ? blog.tags.map((tag, idx) => (
                         <span key={idx} className="tag-badge">
-                          #{tag}
+                          {tag}
                         </span>
                       ))
                     : "N/A"

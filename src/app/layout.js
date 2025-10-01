@@ -2,7 +2,7 @@ import "../styles/global.css";
 import Providers from "./Providers";
 import LayoutClient from "./LayoutClient";
 export const metadata = {
-  title: "My Portfolio",
+  title: "Devkhamal Portfolio And Blog",
   description: "Portfolio and Blog",
 };
 

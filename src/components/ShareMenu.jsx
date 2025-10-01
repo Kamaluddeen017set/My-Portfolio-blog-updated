@@ -19,7 +19,6 @@ function ShareMenu({ blog }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // ✅ Use your Next.js site URL directly
   const frontendBaseUrl = process.env.NEXT_PUBLIC_FRONT_END_URL;
   const shareUrl = `${frontendBaseUrl}/blog/${blog._id}`;
   const title = blog.title;
