@@ -8,7 +8,7 @@ footer {
 
 footer h1 {
   margin: 0 auto 15px auto; /* centers and adds bottom margin */
-  font-family: "poetsenOne";
+  font-family: "poetsen One";
   font-weight: 600;
   font-size: 30px;
   border-bottom: 2px solid var(--sc);
