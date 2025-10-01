@@ -105,8 +105,8 @@
 }
 @media (max-width: 480px) {
   .view_all_blog {
-    margin-left: 35%;
+    margin-left: 32%;
     padding: 25px;
-    margin-top: 350px;
+    margin-top: 400px;
   }
 }

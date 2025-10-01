@@ -81,8 +81,9 @@
   font-size: 20px;
   color: var(--sc);
 }
+
 /* Mobile devices (up to 480px) */
-@media (max-width: 480px) {
+@media (max-width: 481px) {
   .blog-container {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -103,6 +104,12 @@
   .p-blog {
     font-size: 1rem;
     text-align: center;
+  }
+}
+
+@media (min-width: 357px) and (max-width: 481px) {
+  .blog-container {
+    margin-left: -15px;
   }
 }
 
