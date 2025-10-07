@@ -67,7 +67,14 @@ export default function LatestBlogs({ page = "home", initialBlogs = [] }) {
         {blogs.length > 0 ? (
           blogs.map((b) => (
             <div key={b._id || b.id} className="latest-blog-card">
-              {b.image && <img src={b.image} alt={b.title} />}
+              {b.image && (
+                <img
+                  src={b.image}
+                  alt={b.title}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
               <h3>{b.title}</h3>
               <p>{(b.description || b.excerpt || "").slice(0, 100)}...</p>
               <Link href={`/blog/${b._id || b.id}`}>Read More</Link>

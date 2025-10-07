@@ -3,7 +3,7 @@ const BlogCard = ({ image, date, title, excerpt, link, category, tags }) => {
   return (
     <article className="blog-card animation_block">
       <div className="blog-image">
-        <img src={image} alt={title} />
+        <img src={image} alt={title} loading="lazy" decoding="async" />
       </div>
       <div className="blog-content">
         <p className="blog-date">{date}</p>

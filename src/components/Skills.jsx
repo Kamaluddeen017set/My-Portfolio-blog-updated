@@ -242,7 +242,12 @@ function Skill({ skill }) {
         onMouseEnter={animateProgress}
         onMouseLeave={resetProgress}
       >
-        <img src={skill.logo} alt={skill.name} />
+        <img
+          src={skill.logo}
+          alt={skill.name}
+          loading="lazy"
+          decoding="async"
+        />
         <h2>{skill.name}</h2>
         <p>{skill.type}</p>
 
@@ -398,7 +403,12 @@ function EduSkills() {
                 className={`education-card ${isAnimating ? "animate" : ""}`}
                 onAnimationEnd={() => setAnimateCard(null)}
               >
-                <img src={cert.image} alt={cert.title} />
+                <img
+                  src={cert.image}
+                  alt={cert.title}
+                  loading="lazy"
+                  decoding="async"
+                />
                 <h3>{cert.title}</h3>
                 <p>{cert.issuer}</p>
                 <p>{cert.year}</p>

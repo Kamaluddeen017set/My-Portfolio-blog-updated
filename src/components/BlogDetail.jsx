@@ -111,7 +111,13 @@ function BlogDetail({ blog, setLatestTittle }) {
         })}
       </p>
       <p className="date">Author: {localBlog.author}</p>
-      <img className="main-Image" src={localBlog.image} alt={localBlog.title} />
+      <img
+        className="main-Image"
+        src={localBlog.image}
+        alt={localBlog.title}
+        loading="lazy"
+        decoding="async"
+      />
       <div
         className="blog-content"
         dangerouslySetInnerHTML={{ __html: localBlog.content }}

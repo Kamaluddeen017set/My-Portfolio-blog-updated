@@ -14,6 +14,8 @@ function About() {
             <img
               src="./about-pic.png"
               alt="about picture"
+              loading="lazy"
+              decoding="async"
               className="about_pic"
             />
           </div>

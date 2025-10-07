@@ -58,7 +58,12 @@ function ProjectCard({ projectobj }) {
       <div className="card-container card3">
         <div className="card">
           <div className="img-content">
-            <img src={projectobj.image} alt="" />
+            <img
+              src={projectobj.image}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div className="content">
             <p className="heading">{projectobj.name}</p>

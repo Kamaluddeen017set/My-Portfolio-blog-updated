@@ -1,5 +1,3 @@
-"use client";
-import { useEffect } from "react";
 import "../styles/Hero.css";
 import TypingText from "./TypingText"; // Import our typing effect
 
@@ -10,6 +8,8 @@ function Hero() {
         <div className="image_border">
           <img
             src=".\hero_pic.png"
+            loading="lazy"
+            decoding="async"
             alt="devKhamal picture"
             className="mypicture"
           />
