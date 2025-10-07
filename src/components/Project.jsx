@@ -16,34 +16,20 @@ const project = [
     link: "Portfolio + Blog page gethub",
   },
   {
+    name: "Data Analyst Portfolio",
+    image: "./data-analyst-project.png",
+    info: "A Responsive personal portfolio for data analyst client ",
+    tech: "HTML,CSS,JavaScript ",
+    link: "https://munjazir89.github.io/Data-Analyst-portfolio",
+  },
+  {
     name: "TODO APP",
     image: "./Project3.png",
     info: "An Task Master for recording future Task",
     tech: "HTML,CSS,JavaScript",
     link: "https://kamaluddeen017set.github.io/todo-app/",
   },
-  {
-    name: "Digital Calculator",
-    image: "./Project4.png",
-    info: "an E-commerce platform for new and second Hand materials",
-    tech: "HTML,CSS,JavaScript And EJS",
-    link: "https://kamaluddeen017set.github.io/Calculator/",
-  },
-  {
-    name: "Solor Sytem",
-    image: "./Project5.png",
-    info: "Solar System animation ",
-    tech: "HTML,CSS,JavaScript",
-    link: "https://kamaluddeen017set.github.io/Solar-System/",
-  },
 
-  {
-    name: "weather app",
-    image: "./Project6.png",
-    info: "Weater Forcast App ",
-    tech: "HTML,CSS,JavaScript ",
-    link: "https://kamaluddeen017set.github.io/weather-app/",
-  },
   {
     name: "Quotes Generator",
     image: "./Project7.png",

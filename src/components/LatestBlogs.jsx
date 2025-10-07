@@ -3,124 +3,81 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import "../styles/LatestBlogs.css";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-function LatestBlogs({ page }) {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const pathname = usePathname();
-
-  // Choose source: explicit prop > detect pathname
-  const resolvedPage = page
-    ? page
-    : pathname?.startsWith("/blog/") || pathname?.startsWith("/blog")
-    ? "details"
-    : "home";
-
-  // Fetch latest
-  const fetchLatestBlogs = async (signal) => {
-    if (!API_BASE_URL) {
-      setError("API base URL not configured");
-      setBlogs([]);
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/blogs/latest`, { signal });
-      if (!res.ok) throw new Error(`Status ${res.status}`);
-      const data = await res.json();
-      setBlogs(Array.isArray(data) ? data : []);
-      setError(null);
-    } catch (err) {
-      if (err.name !== "AbortError") {
-        console.error("fetchLatestBlogs error:", err);
-        setError("Failed to load latest blogs");
-        setBlogs([]);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch random / related
-  const fetchRandomBlogs = async (signal) => {
-    if (!API_BASE_URL) {
-      setError("API base URL not configured");
-      setBlogs([]);
-      setLoading(false);
-      return;
-    }
-
-    try {
-      // <-- fixed to call random endpoint
-      const res = await fetch(`${API_BASE_URL}/blogs/random`, { signal });
-      if (!res.ok) throw new Error(`Status ${res.status}`);
-      const data = await res.json();
-      setBlogs(Array.isArray(data) ? data : [data]);
-      setError(null);
-    } catch (err) {
-      if (err.name !== "AbortError") {
-        console.error("fetchRandomBlogs error:", err);
-        setError("Failed to load related blogs");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    setLoading(true);
-    setError(null);
-
-    // Decide which fetch to call
-    if (resolvedPage === "details") {
-      fetchRandomBlogs(controller.signal);
-    } else if (resolvedPage === "home") {
-      fetchLatestBlogs(controller.signal);
-    } else {
-      // default fallback (home)
-      fetchLatestBlogs(controller.signal);
-    }
-
-    return () => controller.abort();
-  }, [resolvedPage, pathname]);
-
-  if (loading) {
-    return (
-      <div className="load-content">
-        <div className="text">Loading~blogs...</div>
-        <div className="text">Loading~blogs...</div>
-      </div>
-    );
+// Helper for initial SSR fetch
+async function getInitialBlogs(endpoint) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/blogs/${endpoint}`, {
+      cache: "no-store", // SSR fresh fetch
+    });
+    if (!res.ok) throw new Error(`Status ${res.status}`);
+    const data = await res.json();
+    return Array.isArray(data) ? data : [data];
+  } catch (err) {
+    console.error("SSR fetch error:", err);
+    return [];
   }
+}
+
+export default function LatestBlogs({ page = "home", initialBlogs = [] }) {
+  const [blogs, setBlogs] = useState(initialBlogs);
+  const [loading, setLoading] = useState(false);
+
+  const endpoint = page === "details" ? "random" : "latest";
+
+  // Client refresh every 30s
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`${API_BASE_URL}/blogs/${endpoint}`);
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        const data = await res.json();
+        setBlogs(Array.isArray(data) ? data : [data]);
+      } catch (err) {
+        console.error("Client refresh error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Fetch once on mount
+    fetchBlogs();
+
+    // Then re-fetch every 30 seconds
+    const interval = setInterval(fetchBlogs, 30000);
+    return () => clearInterval(interval);
+  }, [endpoint]);
 
   return (
     <section className="latest-blogs-section fadeUp">
-      <h2
-        className={
-          resolvedPage === "details" ? "explore_head" : "skills_heading"
-        }
-      >
-        {resolvedPage === "details" ? "Explore more Blogs" : "Latest Blog"}
+      <h2 className={page === "details" ? "explore_head" : "skills_heading"}>
+        {page === "details" ? "Explore more Blogs" : "Latest Blog"}
       </h2>
       <hr />
-      {error && <p className="error">{error}</p>}
+      {loading && (
+        <div className="load-content">
+          <div className="text">Refreshing blogs...</div>
+        </div>
+      )}
+
       <div className="latest-cards-wrapper">
-        {blogs?.map((b) => (
-          <div key={b._id || b.id} className="latest-blog-card">
-            {b.image && <img src={b.image} alt={b.title} />}
-            <h3>{b.title}</h3>
-            <p>{(b.description || b.excerpt || "").slice(0, 100)}...</p>
-            <Link href={`/blog/${b._id || b.id}`}>Read More</Link>
-          </div>
-        ))}
+        {blogs.length > 0 ? (
+          blogs.map((b) => (
+            <div key={b._id || b.id} className="latest-blog-card">
+              {b.image && <img src={b.image} alt={b.title} />}
+              <h3>{b.title}</h3>
+              <p>{(b.description || b.excerpt || "").slice(0, 100)}...</p>
+              <Link href={`/blog/${b._id || b.id}`}>Read More</Link>
+            </div>
+          ))
+        ) : (
+          <p>No blogs found.</p>
+        )}
+
         <Link className="view_all_blog" href="/blog">
           View all
         </Link>
@@ -128,5 +85,3 @@ function LatestBlogs({ page }) {
     </section>
   );
 }
-
-export default LatestBlogs;

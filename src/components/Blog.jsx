@@ -1,31 +1,38 @@
-"use client";
+"use client"; // 👈 Required because it uses useState and useEffect
+
 import "../styles/Blog.css";
 import React, { useState, useEffect } from "react";
 import BlogCard from "./BlogCard";
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 function Blog() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/blogs`) // backend route
-      .then((res) => res.json())
-      .then((data) => {
+    async function fetchBlogs() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/blogs`, { cache: "no-store" });
+        const data = await res.json();
         setBlogs(data);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching blogs:", err);
+      } finally {
         setLoading(false);
-      });
+      }
+    }
+    fetchBlogs();
   }, []);
-  const filteredBlogs = blogs.filter(
-    (blog) =>
-      blog.title.toLowerCase().includes(query.toLowerCase()) ||
-      blog.excerpt.toLowerCase().includes(query.toLowerCase()) ||
-      blog.category.toLowerCase().includes(query.toLowerCase())
+
+  const filteredBlogs = blogs.filter((blog) =>
+    [blog.title, blog.excerpt, blog.category]
+      .join(" ")
+      .toLowerCase()
+      .includes(query.toLowerCase())
   );
+
   return (
     <div>
       <h1 id="blog" className="skills_heading">
@@ -35,7 +42,9 @@ function Blog() {
         Sharing experiences, tutorials, and stories about web development and
         tech.
       </h1>
+
       <SearchBar query={query} setQuery={setQuery} />
+
       {loading ? (
         <div className="loading-container">
           <div className="loader-container">
@@ -50,9 +59,11 @@ function Blog() {
               <BlogCard
                 key={blog._id}
                 image={blog.image}
-                category=<span className="category-badge">
-                  {blog.category || "N/A"}
-                </span>
+                category={
+                  <span className="category-badge">
+                    {blog.category || "N/A"}
+                  </span>
+                }
                 tags={
                   blog.tags?.length
                     ? blog.tags.map((tag, idx) => (
@@ -80,18 +91,17 @@ function Blog() {
     </div>
   );
 }
-const SearchBar = ({ query, setQuery }) => {
-  return (
-    <form className="search-container" onSubmit={(e) => e.preventDefault()}>
-      <input
-        type="text"
-        placeholder="Search blog..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="search-input"
-      />
-    </form>
-  );
-};
+
+const SearchBar = ({ query, setQuery }) => (
+  <form className="search-container" onSubmit={(e) => e.preventDefault()}>
+    <input
+      type="text"
+      placeholder="Search blog..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      className="search-input"
+    />
+  </form>
+);
 
 export default Blog;

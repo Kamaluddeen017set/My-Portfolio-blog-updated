@@ -258,6 +258,9 @@
   }
 }
 /* 📰 Headings */
+.blog-content {
+  width: 100%;
+}
 .blog-content h1,
 .blog-content h2,
 .blog-content h3,

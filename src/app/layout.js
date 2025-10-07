@@ -1,6 +1,7 @@
 import "../styles/global.css";
 import Providers from "./Providers";
 import LayoutClient from "./LayoutClient";
+import LoaderWrapper from "./LoaderWrapper";
 export const metadata = {
   title: "Devkhamal Portfolio And Blog",
   description: "Portfolio and Blog",
@@ -52,8 +53,9 @@ export default function RootLayout({ children }) {
       <body>
         <div id="root">
           <Providers>
-            {" "}
-            <LayoutClient /> {children}
+            <LoaderWrapper>
+              <LayoutClient /> {children}
+            </LoaderWrapper>
           </Providers>
         </div>
       </body>

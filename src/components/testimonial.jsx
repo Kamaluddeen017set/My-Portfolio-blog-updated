@@ -6,48 +6,12 @@ import "../styles/Testimonials.css";
 const testimonials = [
   {
     id: 1,
-    name: "Client Neme",
-    role: "Product Designer",
-    image: "https://i.pravatar.cc/150?img=47",
+    name: "Ghanitat Olumegbon",
+    role: "Data Analyst · UI/UX Designer · Content Creator",
+    image: "/ghaniyatPic.jpg",
     quote:
-      "Kamaludduin delivered a clean, functional, and scalable solution that matched our exact needs.",
+      "kamaluddin You did an amazing job on my portfolio -clean, professional, and beyond my expectations. I’ll definitely recommend your work!",
     rating: 5,
-  },
-  {
-    id: 2,
-    name: "Client Name",
-    role: "Software Engineer",
-    image: "https://i.pravatar.cc/150?img=12",
-    quote:
-      "He transformed our ideas into a smooth user-friendly platform that exceeded expectation.",
-    rating: 4,
-  },
-  {
-    id: 3,
-    name: "Client Name",
-    role: "Marketing Lead",
-    image: "https://i.pravatar.cc/150?img=22",
-    quote:
-      "Great communication and attention to detail - our project was completed on time and stress free.",
-    rating: 5,
-  },
-  {
-    id: 4,
-    name: "Client Name",
-    role: "CEO, Startup Inc.",
-    image: "https://i.pravatar.cc/150?img=32",
-    quote:
-      "Kamaluddin built a responsive, secure, and modern application that our users love.",
-    rating: 5,
-  },
-  {
-    id: 5,
-    name: "Client Name",
-    role: "UX Specialist",
-    image: "https://i.pravatar.cc/150?img=22",
-    quote:
-      "Kamaluddin is reliable, professional, and always delivers high-quality code.",
-    rating: 4,
   },
 ];
 
@@ -88,20 +52,18 @@ function Testimonials() {
       <hr />
       <div className="carousel">
         {!isMobile && (
-          <button className="nav left" onClick={prevSlide}>
+          <button className="nav left  hidden" onClick={prevSlide}>
             ❮
           </button>
         )}
-
+        {/* visible is socond option when is more then 3 👇👇 */}
         <div className="cards-wrapper fadeUp testimonial-wrapper">
-          {(isMobile ? testimonials : visible).map((t) => (
+          {(isMobile ? testimonials : testimonials).map((t) => (
             <div key={t.id} className="testimonial-card animate">
               <div className="profile">
                 <img src={t.image} alt={t.name} />
                 <div>
-                  <h3>
-                    {t.id} {t.name}
-                  </h3>
+                  <h3>{t.name}</h3>
                   <p>{t.role}</p>
                   <div className="stars">
                     {"★".repeat(t.rating)}
@@ -110,15 +72,11 @@ function Testimonials() {
                 </div>
               </div>
               <p className="quote">“{t.quote}”</p>
-              <p style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                Expected feedback from future client
-              </p>
             </div>
           ))}
         </div>
-
         {!isMobile && (
-          <button className="nav right" onClick={nextSlide}>
+          <button className="nav right hidden" onClick={nextSlide}>
             ❯
           </button>
         )}
