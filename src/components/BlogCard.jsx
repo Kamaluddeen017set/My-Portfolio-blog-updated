@@ -8,7 +8,7 @@ const BlogCard = ({ image, date, title, excerpt, link, category, tags }) => {
       <div className="blog-content">
         <p className="blog-date">{date}</p>
         <h3 className="blog-title">{title}</h3>
-        <p className="blog-excerpt">{excerpt}</p>
+        <p className="blog-excerpt">{`${excerpt}....`}</p>
         <div className="category_tags">
           <p>Category: {category}</p>
           <p> Tags: {tags}</p>

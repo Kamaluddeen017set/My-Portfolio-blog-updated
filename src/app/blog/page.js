@@ -1,4 +1,3 @@
-// app/blog/page.js
 import BlogLayout from "../../components/BlogLayout";
 import BlogListSsr from "../../components/BlogListSsr"; // a new small component
 import "../../styles/Blog.css";

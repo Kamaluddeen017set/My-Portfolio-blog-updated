@@ -1,4 +1,3 @@
-// src/app/blog/[id]/BlogDetailClient.jsx
 "use client";
 
 import { useState, useRef } from "react";

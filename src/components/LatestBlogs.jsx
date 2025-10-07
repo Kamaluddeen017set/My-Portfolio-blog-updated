@@ -1,4 +1,3 @@
-// src/components/LatestBlogs.jsx
 "use client";
 
 import { useEffect, useState } from "react";
