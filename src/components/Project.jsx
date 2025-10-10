@@ -9,13 +9,6 @@ const project = [
     link: "https://github.com/Kamaluddeen017set/Trust-Renewmart",
   },
   {
-    name: "Portfolio + Blog page ",
-    image: "./Project2.png",
-    info: "A Responsive personal portfolio & blog",
-    tech: "React next.js, Css, express, MongoDb,Cloudinary, jsx etc ",
-    link: "Portfolio + Blog page gethub",
-  },
-  {
     name: "Data Analyst Portfolio",
     image: "./data-analyst-project.png",
     info: "A Responsive personal portfolio for data analyst client ",
