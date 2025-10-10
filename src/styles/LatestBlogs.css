@@ -78,7 +78,7 @@
 .view_all_blog {
   position: absolute;
   margin-left: 37%;
-  margin-top: 400px;
+  margin-top: 450px;
   font-size: 1rem;
   background-color: var(--lm);
   color: var(--sc);
@@ -88,7 +88,6 @@
 }
 .view_all_blog:hover {
   border: 2px solid var(--color);
-
   transform: translateY(-8px);
 }
 
