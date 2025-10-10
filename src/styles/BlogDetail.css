@@ -423,7 +423,7 @@
     padding: 5px 8px;
     border-radius: 15px;
     margin-left: 2px;
-    width: 95.7%;
+    width: 100%;
     white-space: pre;
     font-family: "Courier New", monospace;
     color: var(--sc);
@@ -432,7 +432,9 @@
   }
   .ql-code-block-container .ql-code-block {
     font-size: 7.5px;
-  
+  }
+  .blog-content pre {
+    width: 95%;
   }
   .comment-section .add-comment {
     margin-left: 35%;
